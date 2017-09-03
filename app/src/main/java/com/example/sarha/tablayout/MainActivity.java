@@ -1,8 +1,12 @@
 package com.example.sarha.tablayout;
 
+import android.content.Intent;
+import android.database.DataSetObserver;
+import android.support.annotation.IdRes;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -17,7 +21,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AdapterView;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+
+import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabSelectListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -30,8 +40,26 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //하단의 일기 추가 버튼이 있는 메뉴 바
+        BottomBar bottomBar=(BottomBar)findViewById(R.id.bottomBar);
+
+        //checked_tab 부분의 커스텀 ListView
+        ListView listView;
+        ListViewAdapter adapter = new ListViewAdapter();
+
+        //listview 참조 및 adapter 달기
+        listView=(ListView)findViewById(R.id.listview1);
+        listView.setAdapter(adapter);
+
+        //임시로 아이템 추가하기
+        adapter.addItem("내용내용","2017.09.03");
+        adapter.addItem("오늘의 일기","2017.09.02");
+        adapter.addItem("다 꺼졌으면!","2017.09.01");
+
+        //툴바 추가하기 adding toolbar to the activity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -43,7 +71,31 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        //bottom bar 리스너
+        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelected(@IdRes int tabId) {
+                if(tabId==R.id.tab_black){
+                    Intent intent = new Intent(MainActivity.this, AddActivity.class);
+                    startActivity(intent);
+                }else if(tabId==R.id.tab_white){
+                    Intent intent = new Intent(MainActivity.this, AddActivity.class);
+                    startActivity(intent);
+                }
+                else{}
+            }
+        });
+        //list view에 클릭 이벤트 핸들러 정의
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+            @Override
+            public void onItemClick(AdapterView parent, View v, int position, long id){
+                //get item
+                Diary item=(Diary)parent.getItemAtPosition(position);
 
+                String titleStr= item.getContents();
+                String dateStr=item.getDate();
+            }
+        });
 
     }
 
