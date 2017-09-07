@@ -18,6 +18,6 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <!--<style name="IntorTheme" parent="@android:style/Theme.Light.NoTitleBar">-->
-        <!--<item name="android:windowBackground">@drawable/im_bw</item>-->
+    <!--<item name="android:windowBackground">@drawable/im_bw</item>-->
     <!--</style>-->
 </resources>

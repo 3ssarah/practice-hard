@@ -52,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
         //임시로 아이템 추가하기
-        adapter.addItem("내용내용","2017.09.03");
-        adapter.addItem("오늘의 일기","2017.09.02");
-        adapter.addItem("다 꺼졌으면!","2017.09.01");
+        adapter.addItem("내용내용","20170903");
+        adapter.addItem("오늘의 일기","20170902");
+        adapter.addItem("다 꺼졌으면!","20170901");
 
         //툴바 추가하기 adding toolbar to the activity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -74,13 +74,15 @@ public class MainActivity extends AppCompatActivity {
         //bottom bar 리스너
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
-            public void onTabSelected(@IdRes int tabId) {
+            public void onTabSelected( int tabId) {
                 if(tabId==R.id.tab_black){
-                    Intent intent = new Intent(MainActivity.this, AddActivity.class);
+                    Intent intent = new Intent(MainActivity.this, AddActivity2.class);
+                    System.out.println("여기는 흑");
                     startActivity(intent);
                 }else if(tabId==R.id.tab_white){
-                    Intent intent = new Intent(MainActivity.this, AddActivity.class);
+                    Intent intent = new Intent(MainActivity.this, AddActivity2.class);
                     startActivity(intent);
+                    System.out.println("여기는 백");
                 }
                 else{}
             }

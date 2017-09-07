@@ -1,6 +1,5 @@
 package com.example.sarha.tablayout;
 
-
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -32,7 +31,7 @@ public class IntroActivity extends Activity {
                 finish();
                 overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
             }
-        }, 20000);
+        }, 2000);
     }
 }
 
