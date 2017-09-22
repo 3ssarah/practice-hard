@@ -6,17 +6,17 @@ package com.example.sarha.tablayout;
 
 public class Diary {
 
-    private int number;
+    private int diaryNumber;
     private String date;
     private String contents;
     private int color;
 
-    public int getNumber() {
-        return number;
+    public int getDiaryNumber() {
+        return diaryNumber;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setDiaryNumber(int diaryNumber) {
+        this.diaryNumber = diaryNumber;
     }
 
     public String getDate() {
