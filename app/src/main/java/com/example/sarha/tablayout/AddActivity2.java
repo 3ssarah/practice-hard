@@ -1,6 +1,10 @@
 package com.example.sarha.tablayout;
 
+import android.content.Intent;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteStatement;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -25,26 +29,42 @@ public class AddActivity2 extends AppCompatActivity {
 //    Date date= new Date(nowT);
 //    SimpleDateFormat sdNow= new SimpleDateFormat("yyyy/MM/dd");
 //    String formatDate=sdNow.format(date);
-//
+
 //    TextView dateNow;
     DatePicker datePicker;
     EditText editText;
-    String fileName;
+    String date;
     DBHelper helper= new DBHelper(this);
+    int diaryColor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add2);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        Intent intent= getIntent();
 
+        String check=intent.getStringExtra("색");
+        int textColor;
+        if(check.equals("검정색")){
+            diaryColor= Color.BLACK;
+            textColor=Color.WHITE;
+        }
+        else{
+            diaryColor=Color.WHITE;
+            textColor=Color.BLACK;
+        }
         //datePicker=(DatePicker)findViewById(R.id.datePicker);
         editText=(EditText)findViewById(R.id.edit_diary_write);
+        editText.setBackgroundColor(diaryColor);
+        editText.setTextColor(textColor);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         int year= Calendar.getInstance().get(Calendar.YEAR);
         int month= Calendar.getInstance().get(Calendar.MONTH);
         int day= Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+        date=Integer.toString(year)+","+Integer.toString(month)+","+Integer.toString(day);
 
     }
     @Override
@@ -60,9 +80,19 @@ public class AddActivity2 extends AppCompatActivity {
             case R.id.action_save:
                 //if(true){
                 SQLiteDatabase db=helper.getWritableDatabase();
+                int number=0;
+                Cursor mCursor = db.rawQuery("SELECT * FROM bwdiary", null);
+
+                while (mCursor.moveToNext()) {
+
+                    number++;
+                }
+                mCursor.close();
+
+
                 String sql="INSERT INTO bwdiary(diaryNumber, contents, date, color) " +
-                        "VALUES('editText.getText().toString()'" +
-                        "fileName', diary.getColor())";
+                        "VALUES('"+number+"','"+editText.getText().toString()+"','"+date+"','"+diaryColor+"');'";
+
                 db.execSQL(sql);
                 db.close();
                 Toast.makeText(this,"save", Toast.LENGTH_SHORT).show();
@@ -74,6 +104,10 @@ public class AddActivity2 extends AppCompatActivity {
 //                    db.close();
 //                    Toast.makeText(this,"modification saved", Toast.LENGTH_SHORT).show();
 //                }
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                finish();
+
                 return true;
             case R.id.action_menu:
                 Toast.makeText(this,"menu", Toast.LENGTH_SHORT).show();
@@ -81,6 +115,13 @@ public class AddActivity2 extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    @Override
+    public void onBackPressed()
+    {
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
+        finish();
     }
 
 }

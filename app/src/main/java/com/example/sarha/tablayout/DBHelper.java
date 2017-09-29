@@ -17,8 +17,8 @@ public class DBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        String sql="CREATE TABLE bwdiary(diaryNumber INTEGER NOT NULL, contents VARCHAR2(600) , " +
-                "date CHAR(10) NOT NULL, color INTEGER " +
+        String sql="CREATE TABLE bwdiary(diaryNumber INTEGER NOT NULL, contents TEXT, " +
+                "date TEXT NOT NULL, color INTEGER, " +
                 "CONSTRAINT bwdiary_PK PRIMARY KEY(diaryNumber));";
         db.execSQL(sql);
     }

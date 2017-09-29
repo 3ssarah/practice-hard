@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.DataSetObserver;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.support.annotation.IdRes;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -32,6 +33,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.roughike.bottombar.BottomBar;
+import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
 
 import java.util.ArrayList;
@@ -41,12 +43,6 @@ public class MainActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
-    Activity act= this;
-    GridView gridView;
-    //텍스트 배열 선언
-    ArrayList<String> textArr= new ArrayList<String>();
-    ArrayList<String> dateArr= new ArrayList<String>();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,20 +53,7 @@ public class MainActivity extends AppCompatActivity {
         //하단의 일기 추가 버튼이 있는 메뉴 바
         BottomBar bottomBar=(BottomBar)findViewById(R.id.bottomBar);
 
-
-        //checked_tab 부분의 커스텀 ListView
-        //ListView listView;
-        //ListViewAdapter adapter = new ListViewAdapter();
-
-        //listview 참조 및 adapter 달기
-        //listView=(ListView)findViewById(R.id.listview1);
-        //listView.setAdapter(adapter);
-
-        //임시로 아이템 추가하기
-        //adapter.addItem("내용내용","20170903");
-        //adapter.addItem("오늘의 일기","20170902");
-        //adapter.addItem("다 꺼졌으면!","20170901");
-
+        //툴바 추가하기 adding toolbar to the activity
         //툴바 추가하기 adding toolbar to the activity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -87,35 +70,47 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
         //bottom bar 리스너
-        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+
+        bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
             @Override
-            public void onTabSelected( int tabId) {
+            public void onTabReSelected(@IdRes int tabId) {
                 if(tabId==R.id.tab_black){
                     Intent intent = new Intent(MainActivity.this, AddActivity2.class);
+                    intent.putExtra("색", "검정색");
                     System.out.println("여기는 흑");
                     startActivity(intent);
+                    finish();
                 }else if(tabId==R.id.tab_white){
                     Intent intent = new Intent(MainActivity.this, AddActivity2.class);
+                    intent.putExtra("색", "하얀색");
                     startActivity(intent);
                     System.out.println("여기는 백");
+                    finish();
                 }
                 else{}
             }
         });
-        //list view에 클릭 이벤트 핸들러 정의
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-//            @Override
-//            public void onItemClick(AdapterView parent, View v, int position, long id){
-//                //get item
-//                Diary item=(Diary)parent.getItemAtPosition(position);
-//
-//                String titleStr= item.getContents();
-//                String dateStr=item.getDate();
-//            }
-//        });
-
+        /*
+        bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+            @Override
+            public void onTabSelected(int tabId) {
+                if(tabId==R.id.tab_black){
+                    Intent intent = new Intent(MainActivity.this, AddActivity2.class);
+                    intent.putExtra("색", "검정색");
+                    System.out.println("여기는 흑");
+                    startActivity(intent);
+                    finish();
+                }else if(tabId==R.id.tab_white){
+                    Intent intent = new Intent(MainActivity.this, AddActivity2.class);
+                    intent.putExtra("색", "하얀색");
+                    startActivity(intent);
+                    System.out.println("여기는 백");
+                    finish();
+                }
+                else{}
+            }
+        });*/
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -201,7 +196,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
+            // Show 2 total pages.
             return 2;
         }
 
@@ -216,43 +211,6 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
     }
-    public class gridAdapter extends BaseAdapter {
 
-        LayoutInflater inflater;
-
-        public gridAdapter(){
-            inflater=(LayoutInflater)act.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-
-        }
-        @Override
-        public int getCount(){
-            return textArr.size();
-        }
-        @Override
-        public Object getItem(int position){
-            return textArr.get(position);
-        }
-        @Override
-        public long getItemId(int position){
-            return position;
-        }
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent){
-            if(convertView==null){
-                convertView=inflater.inflate(R.layout.grid_view_contents, parent,false);
-            }
-
-            // ImageView imageView=(ImageView)convertView.findViewById(R.id.imageView);
-            TextView textView=(TextView)convertView.findViewById(R.id.contents1);
-            TextView dateView=(TextView)convertView.findViewById(R.id.date);
-
-            //imageView.setImageBitmap(picArr.get(position));
-            textView.setText(textArr.get(position));
-            dateView.setText(dateArr.get(position));
-
-
-            return convertView;
-        }
-    }
 
 }
