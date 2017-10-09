@@ -1,5 +1,6 @@
 package com.example.sarha.tablayout;
 
+import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -20,17 +21,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
 public class AddActivity2 extends AppCompatActivity {
 
-//    long nowT= System.currentTimeMillis();
-//    Date date= new Date(nowT);
-//    SimpleDateFormat sdNow= new SimpleDateFormat("yyyy/MM/dd");
-//    String formatDate=sdNow.format(date);
-
-//    TextView dateNow;
     DatePicker datePicker;
     EditText editText;
     String date;
@@ -44,15 +40,19 @@ public class AddActivity2 extends AppCompatActivity {
         Intent intent= getIntent();
 
         String check=intent.getStringExtra("색");
+        int flag= intent.getIntExtra("fragment",1);
         int textColor;
-        if(check.equals("검정색")){
-            diaryColor= Color.BLACK;
-            textColor=Color.WHITE;
-        }
-        else{
-            diaryColor=Color.WHITE;
-            textColor=Color.BLACK;
-        }
+
+            if(check.equals("검정색")){
+                diaryColor= Color.BLACK;
+                textColor=Color.WHITE;
+            }
+            else{
+                diaryColor=Color.WHITE;
+                textColor=Color.BLACK;
+            }
+
+
         //datePicker=(DatePicker)findViewById(R.id.datePicker);
         editText=(EditText)findViewById(R.id.edit_diary_write);
         editText.setBackgroundColor(diaryColor);
@@ -78,7 +78,9 @@ public class AddActivity2 extends AppCompatActivity {
 
         switch(item.getItemId()){
             case R.id.action_save:
-                //if(true){
+                //새로운 저장(메인에서 bottom bar 눌렀을 때)
+                if(getIntent().getIntExtra("fragment",0)!=1)//if()
+                {
                 SQLiteDatabase db=helper.getWritableDatabase();
                 int number=0;
                 Cursor mCursor = db.rawQuery("SELECT * FROM bwdiary", null);
@@ -96,14 +98,18 @@ public class AddActivity2 extends AppCompatActivity {
                 db.execSQL(sql);
                 db.close();
                 Toast.makeText(this,"save", Toast.LENGTH_SHORT).show();
-//        }
-//                else{
-//                    SQLiteDatabase db= helper.getWritableDatabase();
-//                    String sql="UPDATE BWdiary SET content=";
-//                    db.execSQL(sql);
-//                    db.close();
-//                    Toast.makeText(this,"modification saved", Toast.LENGTH_SHORT).show();
-//                }
+                }
+                // 2개의 tab에서 항목을 눌러서 들어온 경우
+                else{
+                    SQLiteDatabase db= helper.getWritableDatabase();
+//                    ContentValues values= new ContentValues();
+//                    values.put("contents", editText.getText().toString());
+//                    db.update("bwdiary",values,)
+                    String sql="UPDATE bwdiary SET content="+editText.getText().toString()+";";
+                    db.execSQL(sql);
+                    db.close();
+                    Toast.makeText(this,"modification saved", Toast.LENGTH_SHORT).show();
+                }
                 Intent intent = new Intent(this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -113,7 +119,8 @@ public class AddActivity2 extends AppCompatActivity {
                 Toast.makeText(this,"menu", Toast.LENGTH_SHORT).show();
                 return true;
             default:
-                return super.onOptionsItemSelected(item);
+                //return super.onOptionsItemSelected(item);
+                return true;
         }
     }
     @Override
@@ -123,5 +130,7 @@ public class AddActivity2 extends AppCompatActivity {
         startActivity(intent);
         finish();
     }
+
+
 
 }
