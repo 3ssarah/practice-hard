@@ -1,15 +1,22 @@
 package com.example.sarha.tablayout;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -21,8 +28,10 @@ import java.util.List;
 
 public class ScrollTab extends Fragment {
 
-    ListView listView;
+
+    GridView gridView;
     GridAdapter adapter;
+
     ArrayList<Diary> diaryArr= new ArrayList<Diary>();
     DBHelper helper;
     SQLiteDatabase db;
@@ -36,16 +45,25 @@ public class ScrollTab extends Fragment {
         diaryArr=listUp();
 
         if(adapter==null) adapter= new GridAdapter(getActivity(), diaryArr);
-
-        listView=(ListView)nowView.findViewById(R.id.listview1);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        gridView=(GridView)nowView.findViewById(R.id.scrollView);
+        gridView.setAdapter(adapter);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getActivity(),"상세보기", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getActivity(), AddActivity2.class);
-                intent.putExtra("fragment",1);
-                intent.putExtra("색", "하얀색");
+
+                // if selected change to detail activity which can update or delete the contents
+                Diary temp= new Diary();
+                temp=(Diary)adapter.getItem(position);
+                Toast.makeText(getActivity(),"상세보기", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                Bundle extra= new Bundle();
+                extra.putInt("color",temp.getColor());
+                extra.putInt("number", temp.getDiaryNumber());
+                extra.putString("contents", temp.getContents());
+                extra.putString("date",temp.getDate());
+                intent.putExtras(extra);
+
                 startActivity(intent);
                 getActivity().finish();
             }
@@ -54,6 +72,8 @@ public class ScrollTab extends Fragment {
         return nowView;
         //return inflater.inflate(R.layout.scroll_tab,container, false);
     }
+
+
     public  ArrayList<Diary> listUp(){
 
         ArrayList<Diary> data= new ArrayList<Diary>();
@@ -78,4 +98,6 @@ public class ScrollTab extends Fragment {
         return data;
     }
 
+
 }
+

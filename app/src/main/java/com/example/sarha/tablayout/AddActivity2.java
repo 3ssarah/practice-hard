@@ -75,36 +75,35 @@ public class AddActivity2 extends AppCompatActivity {
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
-
+        Setting setting= new Setting(helper);
         switch(item.getItemId()){
             case R.id.action_save:
                 //새로운 저장(메인에서 bottom bar 눌렀을 때)
                 if(getIntent().getIntExtra("fragment",0)!=1)//if()
                 {
                 SQLiteDatabase db=helper.getWritableDatabase();
-                int number=0;
-                Cursor mCursor = db.rawQuery("SELECT * FROM bwdiary", null);
+//                int number=0;
+//                Cursor mCursor = db.rawQuery("SELECT * FROM bwdiary", null);
+//
+//                while (mCursor.moveToNext()) {
+//
+//                    number++;
+//                }
+//                mCursor.close();
 
-                while (mCursor.moveToNext()) {
 
-                    number++;
-                }
-                mCursor.close();
-
-
-                String sql="INSERT INTO bwdiary(diaryNumber, contents, date, color) " +
-                        "VALUES('"+number+"','"+editText.getText().toString()+"','"+date+"','"+diaryColor+"');'";
+                String sql="INSERT INTO bwdiary(contents, date, color) " +
+                        "VALUES('"+editText.getText().toString()+"','"+date+"','"+diaryColor+"');'";
 
                 db.execSQL(sql);
                 db.close();
                 Toast.makeText(this,"save", Toast.LENGTH_SHORT).show();
                 }
-                // 2개의 tab에서 항목을 눌러서 들어온 경우
+                // 2개의 tab에서 편집을 선택해서 들어온 경우
                 else{
+                    //where(수정할 데이터) 정해야함
                     SQLiteDatabase db= helper.getWritableDatabase();
-//                    ContentValues values= new ContentValues();
-//                    values.put("contents", editText.getText().toString());
-//                    db.update("bwdiary",values,)
+
                     String sql="UPDATE bwdiary SET content="+editText.getText().toString()+";";
                     db.execSQL(sql);
                     db.close();
@@ -115,6 +114,7 @@ public class AddActivity2 extends AppCompatActivity {
                 finish();
 
                 return true;
+
             case R.id.action_menu:
                 Toast.makeText(this,"menu", Toast.LENGTH_SHORT).show();
                 return true;

@@ -21,9 +21,9 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:gravity="center"
-            android:horizontalSpacing="10dip"
+            android:horizontalSpacing="5dip"
             android:numColumns="3"
-            android:verticalSpacing="10dip"></GridView>
+            android:verticalSpacing="5dip"></GridView>
     </ScrollView>
 
     <TextView
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="150dip" />
+        android:layout_marginBottom="50dip" />
 
 
 </RelativeLayout>

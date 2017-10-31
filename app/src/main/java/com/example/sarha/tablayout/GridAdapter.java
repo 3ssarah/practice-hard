@@ -56,9 +56,11 @@ public class GridAdapter extends BaseAdapter {
         if(diaryArr.get(position).getColor()== Color.BLACK){
             layout1.setBackgroundColor(Color.BLACK);
             textView.setTextColor(Color.WHITE);
+            dateView.setTextColor(Color.WHITE);
         }else {
             layout1.setBackgroundColor(Color.WHITE);
             textView.setTextColor(Color.BLACK);
+            dateView.setTextColor(Color.BLACK);
         }
 
 

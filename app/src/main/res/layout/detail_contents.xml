@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/layout"
-    android:layout_width="match_parent"
-    android:layout_height="120dip">
-    <!--<RelativeLayout-->
-        <!--android:layout_width="120dip"-->
-        <!--android:id="@+id/layout"-->
-        <!--android:layout_height="120dip">-->
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/layout_big"
+    android:layout_width="360dip"
+    android:layout_height="360dip"
+    android:layout_gravity="center"
+    >
+
     <TextView
-        android:id="@+id/contents1"
+        android:id="@+id/contents_big"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -20,7 +19,7 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
         android:textColor="#FFFFFF" />
 
     <TextView
-        android:id="@+id/date"
+        android:id="@+id/date_big"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
@@ -30,5 +29,4 @@ xmlns:app="http://schemas.android.com/apk/res-auto"
         android:padding="5dp"
         android:text="date"
         android:textColor="#FFFFFF" />
-    </RelativeLayout>
-    <!--</RelativeLayout>-->
+</RelativeLayout>

@@ -5,19 +5,25 @@
     >
     <item
         android:id="@+id/action_menu"
-        android:orderInCategory="100"
+        android:orderInCategory="0"
         android:icon="@drawable/ic_menubar"
         android:title="메뉴바"
         app:showAsAction="ifRoom"
         />
+    <item
+        android:id="@+id/action_delete"
+        android:title="삭제"
+        android:icon="@drawable/ic_delete"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="90"
+        />
 
     <item
         android:id="@+id/action_save"
-
         android:icon="@drawable/ic_save"
         android:title="저장"
         app:showAsAction="ifRoom"
-        android:orderInCategory="0"
+        android:orderInCategory="100"
         />
 
 </menu>

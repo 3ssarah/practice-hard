@@ -62,10 +62,18 @@ public class CheckedTab extends Fragment {
             // 그리드 뷰의 각 항목을 선택했을 때 AddActivity2로 넘겨준다.
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                // if selected change to detail activity which can update or delete the contents
+                Diary temp= new Diary();
+                temp=(Diary)adapter.getItem(position);
                 Toast.makeText(getActivity(),"상세보기", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getActivity(), AddActivity2.class);
-                intent.putExtra("fragment",1);
-                intent.putExtra("색", "하얀색");
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                Bundle extra= new Bundle();
+                extra.putInt("color",temp.getColor());
+                extra.putInt("number", temp.getDiaryNumber());
+                extra.putString("contents", temp.getContents());
+                extra.putString("date",temp.getDate());
+                intent.putExtras(extra);
+
                 startActivity(intent);
                 getActivity().finish();
             }
