@@ -55,8 +55,6 @@ public class MainActivity extends AppCompatActivity {
         //하단의 일기 추가 버튼이 있는 메뉴 바
         BottomBar bottomBar=(BottomBar)findViewById(R.id.bottomBar);
 
-        //툴바 추가하기 adding toolbar to the activity
-        //툴바 추가하기 adding toolbar to the activity
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
 
@@ -78,15 +76,18 @@ public class MainActivity extends AppCompatActivity {
             public void onTabReSelected(@IdRes int tabId) {
                 if(tabId==R.id.tab_black){
                     Intent intent = new Intent(MainActivity.this, AddActivity2.class);
-                    intent.putExtra("색", "검정색");
-                    System.out.println("여기는 흑");
+                    Bundle extra = new Bundle();
+                    extra.putInt("color", Color.BLACK);
+                    extra.putInt("check",100);
+                    intent.putExtras(extra);
                     startActivity(intent);
                     finish();
                 }else if(tabId==R.id.tab_white){
                     Intent intent = new Intent(MainActivity.this, AddActivity2.class);
-                    intent.putExtra("색", "하얀색");
+                    Bundle extra = new Bundle();
+                    extra.putInt("color", Color.WHITE);
+                    intent.putExtras(extra);
                     startActivity(intent);
-                    System.out.println("여기는 백");
                     finish();
                 }
                 else{}

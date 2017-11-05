@@ -39,11 +39,10 @@ public class AddActivity2 extends AppCompatActivity {
         setContentView(R.layout.activity_add2);
         Intent intent= getIntent();
 
-        String check=intent.getStringExtra("색");
-        int flag= intent.getIntExtra("fragment",1);
+
         int textColor;
 
-            if(check.equals("검정색")){
+            if(intent.getIntExtra("color",0)==Color.BLACK){
                 diaryColor= Color.BLACK;
                 textColor=Color.WHITE;
             }
@@ -57,6 +56,10 @@ public class AddActivity2 extends AppCompatActivity {
         editText=(EditText)findViewById(R.id.edit_diary_write);
         editText.setBackgroundColor(diaryColor);
         editText.setTextColor(textColor);
+        String contents;
+        if((contents=intent.getStringExtra("contents"))!=null){
+            editText.setText(contents);
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -79,19 +82,9 @@ public class AddActivity2 extends AppCompatActivity {
         switch(item.getItemId()){
             case R.id.action_save:
                 //새로운 저장(메인에서 bottom bar 눌렀을 때)
-                if(getIntent().getIntExtra("fragment",0)!=1)//if()
+                if(getIntent().getIntExtra("check",0)==100)//if()
                 {
                 SQLiteDatabase db=helper.getWritableDatabase();
-//                int number=0;
-//                Cursor mCursor = db.rawQuery("SELECT * FROM bwdiary", null);
-//
-//                while (mCursor.moveToNext()) {
-//
-//                    number++;
-//                }
-//                mCursor.close();
-
-
                 String sql="INSERT INTO bwdiary(contents, date, color) " +
                         "VALUES('"+editText.getText().toString()+"','"+date+"','"+diaryColor+"');'";
 
@@ -99,12 +92,11 @@ public class AddActivity2 extends AppCompatActivity {
                 db.close();
                 Toast.makeText(this,"save", Toast.LENGTH_SHORT).show();
                 }
-                // 2개의 tab에서 편집을 선택해서 들어온 경우
+                // 편집을 선택해서 들어온 경우
                 else{
                     //where(수정할 데이터) 정해야함
                     SQLiteDatabase db= helper.getWritableDatabase();
-
-                    String sql="UPDATE bwdiary SET content="+editText.getText().toString()+";";
+                    String sql="UPDATE bwdiary SET contents="+editText.getText().toString()+";";
                     db.execSQL(sql);
                     db.close();
                     Toast.makeText(this,"modification saved", Toast.LENGTH_SHORT).show();

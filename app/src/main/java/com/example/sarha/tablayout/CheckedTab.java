@@ -38,19 +38,7 @@ public class CheckedTab extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View  nowView= inflater.inflate(R.layout.checked_tab, container, false);
-/*
-        for(int i=0; i<10; i++){
-            textArr.add("숫자"+Integer.toString(i));
-        }
-        for(int i=0; i<10;i++){
-            dateArr.add("날짜"+Integer.toString(i));
-        }
-
-*/
-        //Setting setting= new Setting(helper);
-
         diaryArr=listUp();
-
         if(adapter==null){
             adapter=new GridAdapter(getActivity(),diaryArr);
         }
