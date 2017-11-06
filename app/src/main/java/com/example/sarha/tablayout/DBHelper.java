@@ -21,7 +21,7 @@ public class DBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         String sql = "CREATE TABLE bwdiary(diaryNumber INTEGER PRIMARY KEY AUTOINCREMENT, contents TEXT, " +
-                "date TEXT NOT NULL, color INTEGER);";
+                "date TEXT NOT NULL, color INTEGER, UNIQUE(diaryNumber));";
         db.execSQL(sql);
     }
 

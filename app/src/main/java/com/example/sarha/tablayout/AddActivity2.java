@@ -32,6 +32,7 @@ public class AddActivity2 extends AppCompatActivity {
     String date;
     DBHelper helper= new DBHelper(this);
     int diaryColor;
+    int diaryNumber;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class AddActivity2 extends AppCompatActivity {
         String contents;
         if((contents=intent.getStringExtra("contents"))!=null){
             editText.setText(contents);
+            diaryNumber=intent.getIntExtra("number",0);
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -84,6 +86,7 @@ public class AddActivity2 extends AppCompatActivity {
                 //새로운 저장(메인에서 bottom bar 눌렀을 때)
                 if(getIntent().getIntExtra("check",0)==100)//if()
                 {
+                    System.out.println("새로운거 저장!");
                 SQLiteDatabase db=helper.getWritableDatabase();
                 String sql="INSERT INTO bwdiary(contents, date, color) " +
                         "VALUES('"+editText.getText().toString()+"','"+date+"','"+diaryColor+"');'";
@@ -94,9 +97,10 @@ public class AddActivity2 extends AppCompatActivity {
                 }
                 // 편집을 선택해서 들어온 경우
                 else{
+                    System.out.println("편집이다~~");
                     //where(수정할 데이터) 정해야함
                     SQLiteDatabase db= helper.getWritableDatabase();
-                    String sql="UPDATE bwdiary SET contents="+editText.getText().toString()+";";
+                    String sql="UPDATE bwdiary SET contents='"+editText.getText().toString()+"' WHERE diaryNumber="+diaryNumber+";";
                     db.execSQL(sql);
                     db.close();
                     Toast.makeText(this,"modification saved", Toast.LENGTH_SHORT).show();

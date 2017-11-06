@@ -42,18 +42,18 @@ public class Setting {
         return data;
     }
 
-    public void updateDiary(int number){
-
-        SQLiteDatabase db=helper.getReadableDatabase();
-        String sql= "SELECT * from bwdairy WHERE diaryNumber="+number+";";
-        Cursor cursor=db.rawQuery(sql,null);
-        if(cursor==null) {
-            System.out.println("업데이트 오류");
-
-        }else{
-
-        }
-    }
+//    public void updateDiary(int number){
+//
+//        SQLiteDatabase db=helper.getReadableDatabase();
+//        String sql= "SELECT * from bwdairy WHERE diaryNumber="+number+";";
+//        Cursor cursor=db.rawQuery(sql,null);
+//        if(cursor==null) {
+//            System.out.println("업데이트 오류");
+//
+//        }else{
+//
+//        }
+//    }
     public void deleteDiary(int number){
         SQLiteDatabase db=helper.getReadableDatabase();
         String sql="DELETE from bwdiary WHRERE diaryNumber="+number+";";

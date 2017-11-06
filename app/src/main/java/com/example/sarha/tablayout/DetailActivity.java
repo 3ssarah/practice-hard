@@ -1,6 +1,7 @@
 package com.example.sarha.tablayout;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -19,6 +20,7 @@ import android.widget.Toast;
 
 public class DetailActivity extends AppCompatActivity {
     Diary temp= new Diary();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +75,13 @@ public class DetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case R.id.action_delete:
+                DBHelper helper= new DBHelper(this);
+                SQLiteDatabase db=helper.getReadableDatabase();
+                String sql="DELETE from bwdiary WHERE diaryNumber="+temp.getDiaryNumber()+";";
+                db.execSQL(sql);
+                db.close();
                 Toast.makeText(this,"Delete", Toast.LENGTH_SHORT).show();
+                onBackPressed();
                 return true;
 
             case R.id.action_edit:

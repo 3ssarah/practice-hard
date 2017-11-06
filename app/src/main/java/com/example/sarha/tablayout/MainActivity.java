@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, AddActivity2.class);
                     Bundle extra = new Bundle();
                     extra.putInt("color", Color.WHITE);
+                    extra.putInt("check",100);
                     intent.putExtras(extra);
                     startActivity(intent);
                     finish();
