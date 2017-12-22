@@ -3,7 +3,9 @@ package com.example.sarha.tablayout;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.database.DataSetObserver;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.annotation.IdRes;
@@ -44,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     private SectionsPagerAdapter mSectionsPagerAdapter;
     private ViewPager mViewPager;
+    final int MAX=15;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,17 @@ public class MainActivity extends AppCompatActivity {
 
         //하단의 일기 추가 버튼이 있는 메뉴 바
         BottomBar bottomBar=(BottomBar)findViewById(R.id.bottomBar);
+        //DB에 총 몇개의 일기가 있는지 파악, 12개 이상이면 더 이상 일기를 추가할 수 없다.
+        DBHelper helper = new DBHelper(this);
+        int number;
+        SQLiteDatabase db=helper.getReadableDatabase();
+        String sql="SELECT COUNT(*)FROM bwdiary;";
+        Cursor cursor= db.rawQuery(sql,null);
+        number=cursor.getCount();
+        if(number>MAX){
+            bottomBar.removeAllViews();
+        }
+
 
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 //        setSupportActionBar(toolbar);
@@ -70,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
         //bottom bar 리스너
-
         bottomBar.setOnTabReselectListener(new OnTabReselectListener() {
             @Override
             public void onTabReSelected(@IdRes int tabId) {
@@ -94,48 +107,9 @@ public class MainActivity extends AppCompatActivity {
                 else{}
             }
         });
-       /* bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
-            @Override
-            public void onTabSelected(int tabId) {
-                if(tabId==R.id.tab_black){
-                    Intent intent = new Intent(MainActivity.this, AddActivity2.class);
-                    intent.putExtra("색", "검정색");
-                    System.out.println("여기는 흑");
-                    startActivity(intent);
-                    finish();
-                }else if(tabId==R.id.tab_white){
-                    Intent intent = new Intent(MainActivity.this, AddActivity2.class);
-                    intent.putExtra("색", "하얀색");
-                    startActivity(intent);
-                    System.out.println("여기는 백");
-                    finish();
-                }
-                else{}
-            }
-        });*/
+
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_main, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 
     /**
      * A placeholder fragment containing a simple view.
